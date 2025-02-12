@@ -1,15 +1,4 @@
 //começar pelas funções
-
-function aplicarEstilos() {
-    // Seleciona o elemento
-    let elemento = document.getElementById('meuElemento');
-
-    // Aplica estilos
-    elemento.style.fontFamily = 'Inter, sans-serif'; 
-    elemento.style.fontSize = '24px';
-    elemento.style.fontWeight = '700'; 
-}
-
 function mostrarNumero(id, texto) {
     let resultado = document.getElementById(id);
     resultado.innerHTML = texto;
@@ -21,6 +10,14 @@ function mostrarNumero(id, texto) {
         window.speechSynthesis.speak(utterance); 
     } else {
         console.log("Web Speech API não suportada neste navegador.");
+    }
+}
+
+function alterarStatusBotao() {
+    let botao = document.getElementById('btn-reiniciar');
+    if (botao.classList.contains('container__botao-desabilitado')) {
+        botao.classList.remove('container__botao-desabilitado');
+        botao.classList.add('container__botao');
     }
 }
 
@@ -38,6 +35,8 @@ function sortear() {
     alert (sorteados)
 
     mostrarNumero('resultado', `Números sorteados: ${sorteados}`);
+
+    alterarStatusBotao();
 }
 
 function obterNumeroAleatorio(min, max) {

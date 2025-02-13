@@ -5,9 +5,9 @@ function mostrarNumero(id, texto) {
 
     if ('speechSynthesis' in window) {
         let utterance = new SpeechSynthesisUtterance(texto);
-        utterance.lang = 'pt-BR'; 
-        utterance.rate = 1.2; 
-        window.speechSynthesis.speak(utterance); 
+        utterance.lang = 'pt-BR';
+        utterance.rate = 1.2;
+        window.speechSynthesis.speak(utterance);
     } else {
         console.log("Web Speech API não suportada neste navegador.");
     }
@@ -20,7 +20,7 @@ function alterarStatusBotao() {
         botao.classList.add('container__botao');
     } else {
         botao.classList.remove('container__botao');
-        botao.classList.add('container__botao-desabilitado');       
+        botao.classList.add('container__botao-desabilitado');
     }
 }
 
@@ -31,18 +31,35 @@ function sortear() {
     let sorteados = [];
     let numero;
 
-    for (let i = 0; i < quantidade; i++) {
-        numero = obterNumeroAleatorio(de, ate);
-        sorteados.push(numero);
+    if (de >= ate) {
+        alert('Erro: O número inicial não pode ser maior que o número final. Vefique!');
+        reiniciar();
+        alterarStatusBotao();
     }
 
-    mostrarNumero('resultado', `Números sorteados: ${sorteados}`);
+    if (quantidade > (ate - de + 1)) {
+        alert('Erro: A quantidade não deve ser maior que o intervalo entre o número inicial e o número final. Verifique!');
+        return;
+    }
 
-    alterarStatusBotao();
-}
+    for (let i = 0; i < quantidade; i++) {
+            numero = obterNumeroAleatorio(de, ate);
+
+            while (sorteados.includes(numero)) {
+                numero = obterNumeroAleatorio(de, ate);
+                alert('Tentando obter número inédito');
+            }          
+
+            sorteados.push(numero);
+        }
+
+        mostrarNumero('resultado', `Números sorteados: ${sorteados}`);
+
+        alterarStatusBotao();
+    }
 
 function obterNumeroAleatorio(min, max) {
-    return Math.floor(Math.random()* (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function reiniciar() {
